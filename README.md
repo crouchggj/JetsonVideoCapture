@@ -1,6 +1,7 @@
-# Jetson Video Capture
+# Full-Stack Integrated Excellence: Jetson Video Capture
 
 RTSP video stream capture and decoding solution for NVIDIA Jetson platforms.
+A self-contained, high-cohesion repository that unifies demuxing(ffmpeg demuxer), buffering, and hardware acceleration into a single, optimized C++ pipeline.
 
 ## Features
 
@@ -17,9 +18,8 @@ RTSP video stream capture and decoding solution for NVIDIA Jetson platforms.
 
 ## Build
 
-- Cross-compile toolchain: https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu/12.3.rel1/binrel/arm-gnu-toolchain-12.3.rel1-x86_64-aarch64-none-linux-gnu.tar.xz
-- Tool Version: 12.3.rel1
-- [Jetson SYS ROOTFS Download](https://pan.baidu.com/s/1a-SVHKsAJyYZNphMMpXGLw) code: h44m
+- [Cross-compile toolchain](https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu/12.3.rel1/binrel/arm-gnu-toolchain-12.3.rel1-x86_64-aarch64-none-linux-gnu.tar.xz): Tool Version: 12.3.rel1
+- [Jetson SYS ROOTFS Download](https://pan.baidu.com/s/1a-SVHKsAJyYZNphMMpXGLw): code: h44m
 
 ```bash
 # Debug build
