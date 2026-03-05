@@ -2,11 +2,9 @@
  * @file VideoDemuxer.hpp
  * @brief VideoDemuxer: FFmpeg-based RTSP demuxer for video streaming
  */
-#ifndef VIDEO_DEMUXER_HPP_
-#define VIDEO_DEMUXER_HPP_
+#pragma once
 
 #include <functional>
-#include <memory>
 #include <string>
 #include <thread>
 #include <atomic>
@@ -148,5 +146,3 @@ private:
 };
 
 }  // namespace jetson
-
-#endif  // VIDEO_DEMUXER_HPP_

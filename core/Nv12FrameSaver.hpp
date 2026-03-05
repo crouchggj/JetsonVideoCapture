@@ -2,10 +2,8 @@
  * @file Nv12FrameSaver.hpp
  * @brief Nv12FrameSaver: High-performance NV12 frame saver with block linear to pitch linear conversion
  */
-#ifndef NV12_FRAME_SAVER_HPP_
-#define NV12_FRAME_SAVER_HPP_
+#pragma once
 
-#include <cstdint>
 #include <memory>
 #include <string>
 
@@ -98,5 +96,3 @@ private:
 };
 
 }  // namespace jetson
-
-#endif  // NV12_FRAME_SAVER_HPP_

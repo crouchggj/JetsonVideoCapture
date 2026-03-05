@@ -2,11 +2,7 @@
  * @file IFrameProcessor.hpp
  * @brief Frame processor interface for VideoCaptureCore
  */
-#ifndef I_FRAME_PROCESSOR_HPP_
-#define I_FRAME_PROCESSOR_HPP_
-
-#include <cstdint>
-#include <memory>
+#pragma once
 
 namespace jetson {
 
@@ -74,5 +70,3 @@ public:
 };
 
 }  // namespace jetson
-
-#endif  // I_FRAME_PROCESSOR_HPP_

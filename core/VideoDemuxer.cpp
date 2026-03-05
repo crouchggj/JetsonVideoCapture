@@ -8,7 +8,6 @@
 #include "NvV4l2Element.h"
 
 #include <cstring>
-#include <spdlog/spdlog.h>
 #include <utility>
 
 extern "C" {
