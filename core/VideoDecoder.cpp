@@ -194,24 +194,17 @@ void VideoDecoder::Stop() {
   }
 
   running_ = false;
-
-  // Abort packet queue to unblock decode thread
-  auto *queue = static_cast<PacketQueue *>(packet_queue_);
-  if (queue) {
-    queue->abort();
-  }
-
-  if (decoder_) {
-    decoder_->capture_plane.setStreamStatus(false);
-    decoder_->output_plane.setStreamStatus(false);
-  }
-
   if (decode_thread_.joinable()) {
     decode_thread_.join();
   }
 
   if (capture_thread_.joinable()) {
     capture_thread_.join();
+  }
+
+  if (decoder_) {
+    decoder_->capture_plane.setStreamStatus(false);
+    decoder_->output_plane.setStreamStatus(false);
   }
 
   DeallocateCaptureBuffers();
@@ -286,6 +279,11 @@ void VideoDecoder::DecodeThreadFunc() const {
 
     memcpy(buffer_proxy->planes[0].data, packet->data, packet->size);
     buffer_proxy->planes[0].bytesused = packet->size;
+
+    v4l2_buf.m.planes[0].bytesused = buffer_proxy->planes[0].bytesused;
+    v4l2_buf.flags |= V4L2_BUF_FLAG_TIMESTAMP_COPY;
+    v4l2_buf.timestamp.tv_sec = packet->pts / 1000000;
+    v4l2_buf.timestamp.tv_usec = packet->pts % 1000000;
 
     // Queue buffer
     if (decoder_->output_plane.qBuffer(v4l2_buf, nullptr) != 0) {
@@ -373,7 +371,7 @@ void VideoDecoder::CaptureThreadFunc() {
         LOG_ERROR("Failed to re-queue capture buffer!");
       }
     } else if (errno != EAGAIN) {
-      LOG_ERROR("dqBuffer failed with fatal error!");
+      LOG_ERROR("dqBuffer failed with fatal error: {}!", errno);
     }
   }
   LOG_INFO("Capture thread exited");

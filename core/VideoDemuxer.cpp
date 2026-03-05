@@ -160,16 +160,14 @@ void VideoDemuxer::Stop() {
   }
 
   running_ = false;
+  if (demux_thread_.joinable()) {
+    demux_thread_.join();
+  }
 
   auto *queue = static_cast<PacketQueue *>(packet_queue_);
   if (queue) {
     queue->abort();
   }
-
-  if (demux_thread_.joinable()) {
-    demux_thread_.join();
-  }
-
   LOG_INFO("Demuxer stopped, total frames: {}", frame_count_.load());
 }
 

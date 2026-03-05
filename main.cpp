@@ -112,8 +112,8 @@ int main(int argc, char *argv[]) {
   }
 
   LOG_INFO("Shutting down...");
-  demuxer.Stop();
   decoder.Stop();
+  demuxer.Stop();
 
   LOG_INFO("Total frames - Demuxer: {}, Decoder: {}", demuxer.GetFrameCount(), decoder.GetFrameCount());
   return 0;
