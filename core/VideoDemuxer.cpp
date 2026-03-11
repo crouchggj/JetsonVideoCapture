@@ -209,6 +209,7 @@ void VideoDemuxer::DemuxLoop() {
 
     if (avformat_open_input(&fmt_ctx, config_.rtsp_url.c_str(), nullptr, &opts) < 0) {
       LOG_ERROR("Failed to open RTSP stream: {}", config_.rtsp_url);
+      av_dict_free(&opts);
       if (config_.auto_reconnect) {
         LOG_INFO("Reconnecting in {}ms...", config_.reconnect_delay_ms);
         std::this_thread::sleep_for(std::chrono::milliseconds(config_.reconnect_delay_ms));
@@ -263,9 +264,13 @@ void VideoDemuxer::DemuxLoop() {
         AVPacket *extra_pkt = av_packet_alloc();
         av_new_packet(extra_pkt, extradata_size);
         memcpy(extra_pkt->data, extradata, extradata_size);
-        queue.Push(extra_pkt);
+        if (!queue.Push(extra_pkt)) {
+          av_packet_unref(extra_pkt);
+          LOG_WARN("Failed to push SPS/PPS to queue");
+        } else {
+          LOG_INFO("Pushed SPS/PPS to queue");
+        }
         av_packet_free(&extra_pkt);
-        LOG_INFO("Pushed SPS/PPS to queue");
       }
     }
 

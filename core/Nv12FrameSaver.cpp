@@ -48,7 +48,7 @@ public:
 
         if (NvBufSurfaceFromFd(dst_fd_, reinterpret_cast<void**>(&dst_surf_)) < 0) {
             LOG_ERROR("Failed to get surface from fd");
-            close(dst_fd_);
+            NvBufSurf::NvDestroy(dst_fd_);
             dst_fd_ = -1;
             return Status::kAllocationFailed;
         }
